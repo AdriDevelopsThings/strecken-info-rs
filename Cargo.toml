@@ -1,0 +1,24 @@
+[package]
+name = "strecken-info"
+version = "0.1.0"
+edition = "2021"
+authors = ["AdriDoesThings <contact@adridoesthings.com>"]
+description = "Rust SDK to make requests to"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+keywords = ["deutschebahn"]
+repository = "https://github.com/AdriDevelopsThings/strecken-info-rs"
+
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls-tls = ["reqwest/rustls-tls"]
+
+[dependencies]
+chrono = { version = "0.4.24", features = ["serde"] }
+reqwest = { version = "0.11.14", features = ["json"] }
+serde = { version = "1.0.155", features = ["derive"] }
+serde_json = "1.0.94"
+
+[dev-dependencies]
+tokio = { version = "1.26.0", features = ["full"] }
