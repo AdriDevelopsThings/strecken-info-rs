@@ -1,3 +1,19 @@
+//! # running `HimDetails` requests
+//! ```no_run
+//! use strecken_info::details::request_disruption_details;
+//! use chrono::Utc;
+//!
+//! #[tokio::main]
+//! async fn main() {
+//!     let now = Utc::now().naive_local();
+//!     let disruption = request_disruption_details(
+//!         "HIM_FREITEXT_SOME_ID",
+//!         true, // choose if you want to get the affected trains of the disruption
+//!         now
+//!     ).await.unwrap().unwrap(); // You need two unwraps, because the Disruption is sent in an `Option` in a `Result`
+//! }
+//! ```
+
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
