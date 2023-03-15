@@ -1,20 +1,10 @@
-use crate::request::time;
 use chrono::{NaiveDate, NaiveTime};
 use serde::{de, Deserialize, Deserializer};
 
+use super::time;
+
 fn true_fn() -> bool {
     true
-}
-
-#[derive(Debug, Deserialize, Clone)]
-pub struct GeoPosResponse {
-    pub common: GeoPosCommon,
-}
-
-#[derive(Debug, Deserialize, Clone)]
-pub struct GeoPosCommon {
-    #[serde(alias = "himL")]
-    pub disruptions: Vec<Disruption>,
 }
 
 fn deserialize_planned_cat<'de, D>(deserializer: D) -> Result<bool, D::Error>
@@ -36,13 +26,13 @@ pub struct Disruption {
     pub planned: bool,
     #[serde(default = "true_fn")]
     pub display_head: bool,
-    #[serde(alias = "eDate", deserialize_with = "time::deserialize_date")]
-    pub start_date: NaiveDate,
-    #[serde(alias = "eTime", deserialize_with = "time::deserialize_time")]
-    pub start_time: NaiveTime,
     #[serde(alias = "sDate", deserialize_with = "time::deserialize_date")]
-    pub end_date: NaiveDate,
+    pub start_date: NaiveDate,
     #[serde(alias = "sTime", deserialize_with = "time::deserialize_time")]
+    pub start_time: NaiveTime,
+    #[serde(alias = "eDate", deserialize_with = "time::deserialize_date")]
+    pub end_date: NaiveDate,
+    #[serde(alias = "eTime", deserialize_with = "time::deserialize_time")]
     pub end_time: NaiveTime,
     #[serde(alias = "hid")]
     pub id: String,
@@ -56,6 +46,9 @@ pub struct Disruption {
     pub text: Option<String>,
     #[serde(alias = "impactL")]
     pub impact: Option<Vec<DisruptionImpact>>,
+    /// This parameter is only available if you sent a `HimDetails` request with the paramter get_trains=true
+    #[serde(rename = "affJnyL")]
+    pub affected_journeys: Option<Vec<Journey>>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -74,4 +67,35 @@ pub struct DisruptionImpact {
     pub product: Product,
     pub prio: u8,
     pub impact: String,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Journey {
+    /// [JourneyInformation] parsed by the jid
+    #[serde(rename = "jid")]
+    pub journey_information: JourneyInformation,
+}
+
+#[derive(Debug, Clone)]
+pub struct JourneyInformation {
+    pub jid: String,
+    /// The train number includes the train type: e.g. "Tfz81681" or "S  37340"
+    pub train_number: String,
+}
+
+impl<'de> de::Deserialize<'de> for JourneyInformation {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let jid: String = Deserialize::deserialize(deserializer)?;
+        let copied_jid = jid.clone();
+        let splitted = copied_jid.split('|').collect::<Vec<&str>>();
+        assert!(splitted.len() > 1);
+        let splitted_second_part = splitted[1].split('#').collect::<Vec<&str>>();
+        Ok(Self {
+            jid,
+            train_number: splitted_second_part[splitted_second_part.len() - 2].to_string(),
+        })
+    }
 }
