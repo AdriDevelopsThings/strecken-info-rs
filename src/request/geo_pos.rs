@@ -17,16 +17,11 @@
 //! ```
 
 use chrono::NaiveDateTime;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 use crate::error::StreckenInfoError;
 
-mod response;
-pub use response::GeoPosResponse;
-
-use self::response::Disruption;
-
-use super::{request_strecken_info, RequestType, ResponseType};
+use super::{request_strecken_info, Disruption, RequestType, ResponseType};
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -67,6 +62,17 @@ impl Pos {
     pub fn new(x: u32, y: u32) -> Self {
         Self { x, y }
     }
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct GeoPosResponse {
+    pub common: GeoPosCommon,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct GeoPosCommon {
+    #[serde(alias = "himL")]
+    pub disruptions: Vec<Disruption>,
 }
 
 /// Request all disruptions listed on strecken.info
@@ -111,14 +117,18 @@ pub async fn request_disruptions(
         },
     };
     let response = request_strecken_info(RequestType::HimGeoPos { req: request }).await?;
-    let ResponseType::HimGeoPos { res, err } = response
+    if let ResponseType::HimGeoPos { res, err } = response
         .response
         .into_iter()
         .find(|x| matches!(x, ResponseType::HimGeoPos { .. }))
-        .ok_or(StreckenInfoError::InvalidResponse)?;
-    if err.as_str() != "OK" {
-        Err(StreckenInfoError::ResponseError(err))
+        .ok_or(StreckenInfoError::InvalidResponse)?
+    {
+        if err.as_str() != "OK" {
+            Err(StreckenInfoError::ResponseError(err))
+        } else {
+            Ok(res.common.disruptions)
+        }
     } else {
-        Ok(res.common.disruptions)
+        Err(StreckenInfoError::InvalidResponse)
     }
 }

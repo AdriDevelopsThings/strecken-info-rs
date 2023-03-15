@@ -1,5 +1,5 @@
 use chrono::Utc;
-use strecken_info::geo_pos::request_disruptions;
+use strecken_info::{details::request_disruption_details, geo_pos::request_disruptions};
 
 #[tokio::main]
 async fn main() {
@@ -8,4 +8,9 @@ async fn main() {
         .await
         .unwrap();
     println!("Response:\n{:?}", response.get(response.len() / 2).unwrap());
+
+    let details = request_disruption_details(&response[0].id, true, now.naive_local())
+        .await
+        .unwrap();
+    println!("Details:\n{:?}", details);
 }

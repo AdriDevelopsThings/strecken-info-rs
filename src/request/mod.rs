@@ -1,10 +1,17 @@
 use crate::error::StreckenInfoError;
 use serde::{Deserialize, Serialize};
 
-use self::geo_pos::{GeoPosRequest, GeoPosResponse};
+use self::{
+    details::{DetailsRequest, DetailsResponse},
+    geo_pos::{GeoPosRequest, GeoPosResponse},
+};
 
+pub mod details;
+mod disruption;
 pub mod geo_pos;
 mod time;
+
+pub use disruption::*;
 
 #[derive(Serialize)]
 struct FullRequest {
@@ -53,6 +60,10 @@ pub(crate) enum RequestType {
         #[serde(flatten)]
         req: GeoPosRequest,
     },
+    HimDetails {
+        #[serde(flatten)]
+        req: DetailsRequest,
+    },
 }
 
 #[derive(Deserialize)]
@@ -69,6 +80,7 @@ pub(crate) struct Response {
 #[serde(tag = "meth")]
 pub(crate) enum ResponseType {
     HimGeoPos { res: GeoPosResponse, err: String },
+    HimDetails { res: DetailsResponse, err: String },
 }
 
 pub(crate) async fn request_strecken_info(
