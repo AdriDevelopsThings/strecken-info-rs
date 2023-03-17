@@ -15,7 +15,7 @@
 //! ```
 
 use chrono::NaiveDateTime;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 use crate::{error::StreckenInfoError, Disruption};
 
@@ -30,17 +30,6 @@ pub(crate) struct DetailsRequest {
     time: String,
 }
 
-#[derive(Debug, Deserialize, Clone)]
-pub struct DetailsResponse {
-    pub common: DetailsCommon,
-}
-
-#[derive(Debug, Deserialize, Clone)]
-pub struct DetailsCommon {
-    #[serde(alias = "himL")]
-    pub disruptions: Vec<Disruption>,
-}
-
 pub async fn request_disruption_details(
     himid: &str,
     get_trains: bool,
@@ -53,7 +42,7 @@ pub async fn request_disruption_details(
         time: date.format("%H%M%S").to_string(),
     };
     let response = request_strecken_info(RequestType::HimDetails { req: request }).await?;
-    if let ResponseType::HimDetails { res, err } = response
+    if let ResponseType::HimDetails { mut res, err } = response
         .response
         .into_iter()
         .find(|x| matches!(x, ResponseType::HimDetails { .. }))
@@ -62,6 +51,7 @@ pub async fn request_disruption_details(
         if err.as_str() != "OK" {
             Err(StreckenInfoError::ResponseError(err))
         } else {
+            res.common.link()?;
             Ok(res.common.disruptions.into_iter().next())
         }
     } else {

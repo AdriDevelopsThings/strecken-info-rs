@@ -50,6 +50,41 @@ pub struct Disruption {
     /// This parameter is only available if you sent a `HimDetails` request with the paramter get_trains=true
     #[serde(rename = "affJnyL")]
     pub affected_journeys: Option<Vec<Journey>>,
+
+    // references
+    #[serde(default)]
+    pub(crate) edge_ref_l: Vec<u16>,
+    #[serde(default)]
+    pub(crate) region_ref_l: Vec<u16>,
+
+    #[serde(default, skip_deserializing)]
+    pub locations: Vec<LocationRange>,
+    #[serde(default, skip_deserializing)]
+    pub regions: Vec<Region>,
+}
+
+#[derive(Debug, Clone)]
+/// An object that contains from `Location` and optional to `Location`
+pub struct LocationRange {
+    pub from: Location,
+    pub to: Option<Location>,
+}
+
+/// An object like a Betriebsstelle or something like that
+#[derive(Debug, Deserialize, Clone)]
+pub struct Location {
+    pub lid: String,
+    #[serde(rename = "type")]
+    pub type_: String,
+    pub name: String,
+    #[serde(rename = "extId")]
+    pub ext_id: String,
+}
+
+/// Regions affected by large disruptions
+#[derive(Debug, Deserialize, Clone)]
+pub struct Region {
+    pub name: String,
 }
 
 #[derive(Debug, Deserialize, Clone)]

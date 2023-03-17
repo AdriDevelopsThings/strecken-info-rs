@@ -2,7 +2,7 @@ use crate::error::StreckenInfoError;
 use serde::{Deserialize, Serialize};
 
 use self::{
-    details::{DetailsRequest, DetailsResponse},
+    details::DetailsRequest,
     geo_pos::{GeoPosRequest, GeoPosResponse},
 };
 
@@ -78,7 +78,7 @@ pub(crate) struct Response {
 #[serde(tag = "meth")]
 pub(crate) enum ResponseType {
     HimGeoPos { res: GeoPosResponse, err: String },
-    HimDetails { res: DetailsResponse, err: String },
+    HimDetails { res: GeoPosResponse, err: String },
 }
 
 pub(crate) async fn request_strecken_info(

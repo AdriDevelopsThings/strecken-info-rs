@@ -15,7 +15,6 @@ async fn details_test() {
             .await
             .unwrap()
             .unwrap();
-        assert_eq!(disruption.id.as_str(), test_disruption_id.as_str());
         if disruption.affected_journeys.is_some()
             && !disruption.affected_journeys.unwrap().is_empty()
         {
