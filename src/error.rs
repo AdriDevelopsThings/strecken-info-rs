@@ -7,6 +7,8 @@ pub enum StreckenInfoError {
     InvalidResponse,
     /// The server sends an error field which is `OK` by default, if it's this error will be thrown
     ResponseError(String),
+    /// There are multiple references in the response, this error will be thrown if they are broken
+    ReferenceError,
 }
 
 impl From<reqwest::Error> for StreckenInfoError {

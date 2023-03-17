@@ -19,7 +19,7 @@
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
-use crate::{error::StreckenInfoError, Disruption};
+use crate::{error::StreckenInfoError, Disruption, Location, Region};
 
 use super::{request_strecken_info, RequestType, ResponseType};
 
@@ -65,14 +65,66 @@ impl Pos {
 }
 
 #[derive(Debug, Deserialize, Clone)]
-pub struct GeoPosResponse {
+pub(crate) struct GeoPosResponse {
     pub common: GeoPosCommon,
 }
 
 #[derive(Debug, Deserialize, Clone)]
-pub struct GeoPosCommon {
+pub(crate) struct GeoPosCommon {
     #[serde(alias = "himL")]
     pub disruptions: Vec<Disruption>,
+    #[serde(alias = "locL")]
+    locations: Vec<Location>,
+    #[serde(alias = "himMsgRegionL", default)]
+    regions: Vec<Region>,
+    #[serde(alias = "himMsgEdgeL")]
+    edges: Vec<Edge>,
+}
+
+impl GeoPosCommon {
+    pub(crate) fn link(&mut self) -> Result<(), StreckenInfoError> {
+        for disruption in self.disruptions.iter_mut() {
+            for edge in &disruption.edge_ref_l {
+                let edge = self
+                    .edges
+                    .get(*edge as usize)
+                    .ok_or(StreckenInfoError::ReferenceError)?;
+                let from_loc = self
+                    .locations
+                    .get(edge.f_loc_x as usize)
+                    .ok_or(StreckenInfoError::ReferenceError)?
+                    .clone();
+                let to_loc = match edge.f_loc_y {
+                    Some(f_loc_y) => self
+                        .locations
+                        .get(f_loc_y as usize)
+                        .map(|l| Some(l.clone()))
+                        .ok_or(StreckenInfoError::ReferenceError),
+                    None => Ok(None),
+                }?;
+                disruption.locations.push(crate::LocationRange {
+                    from: from_loc,
+                    to: to_loc,
+                });
+            }
+            for region in &disruption.region_ref_l {
+                let region = self
+                    .regions
+                    .get(*region as usize)
+                    .ok_or(StreckenInfoError::ReferenceError)?
+                    .clone();
+                disruption.regions.push(region);
+            }
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+struct Edge {
+    f_loc_x: u16,
+    f_loc_y: Option<u16>,
 }
 
 /// Request all disruptions listed on strecken.info
@@ -117,7 +169,7 @@ pub async fn request_disruptions(
         },
     };
     let response = request_strecken_info(RequestType::HimGeoPos { req: request }).await?;
-    if let ResponseType::HimGeoPos { res, err } = response
+    if let ResponseType::HimGeoPos { mut res, err } = response
         .response
         .into_iter()
         .find(|x| matches!(x, ResponseType::HimGeoPos { .. }))
@@ -126,6 +178,7 @@ pub async fn request_disruptions(
         if err.as_str() != "OK" {
             Err(StreckenInfoError::ResponseError(err))
         } else {
+            res.common.link()?;
             Ok(res.common.disruptions)
         }
     } else {
