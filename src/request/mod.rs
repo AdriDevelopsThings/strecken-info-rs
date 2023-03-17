@@ -7,11 +7,9 @@ use self::{
 };
 
 pub mod details;
-mod disruption;
+pub mod disruption;
 pub mod geo_pos;
 mod time;
-
-pub use disruption::*;
 
 #[derive(Serialize)]
 struct FullRequest {
