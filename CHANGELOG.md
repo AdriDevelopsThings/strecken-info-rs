@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.2...v0.1.3) (2023-03-17)
+
+
+### Features
+
+* add locations and regions to disruptions ([2c72924](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/2c729246e48b5c87700453890eb2dc9f4db21b46))
+
 ## [0.1.2](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.1...v0.1.2) (2023-03-17)
 
 
