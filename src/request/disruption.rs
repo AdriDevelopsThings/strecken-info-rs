@@ -43,6 +43,7 @@ pub struct Disruption {
     pub prio: u8,
     #[serde(alias = "regionRefL")]
     pub affected_regions: Option<Vec<u16>>,
+    pub head: String,
     pub text: Option<String>,
     #[serde(alias = "impactL")]
     pub impact: Option<Vec<DisruptionImpact>>,
