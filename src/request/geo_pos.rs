@@ -16,12 +16,12 @@
 //! }
 //! ```
 
-use chrono::NaiveDateTime;
+use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
 use serde::{Deserialize, Serialize};
 
-use crate::{error::StreckenInfoError, Disruption, Location, Region};
+use crate::{error::StreckenInfoError, Disruption, Event, Location, Region};
 
-use super::{request_strecken_info, RequestType, ResponseType};
+use super::{request_strecken_info, time, RequestType, ResponseType};
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -79,6 +79,8 @@ pub(crate) struct GeoPosCommon {
     regions: Vec<Region>,
     #[serde(alias = "himMsgEdgeL")]
     edges: Vec<Edge>,
+    #[serde(alias = "himMsgEventL")]
+    msg_events: Vec<MsgEvent>,
 }
 
 impl GeoPosCommon {
@@ -107,6 +109,7 @@ impl GeoPosCommon {
                     to: to_loc,
                 });
             }
+
             for region in &disruption.region_ref_l {
                 let region = self
                     .regions
@@ -114,6 +117,17 @@ impl GeoPosCommon {
                     .ok_or(StreckenInfoError::ReferenceError)?
                     .clone();
                 disruption.regions.push(region);
+            }
+
+            for event in &disruption.event_ref_l {
+                let event = self
+                    .msg_events
+                    .get(*event as usize)
+                    .ok_or(StreckenInfoError::ReferenceError)?;
+                disruption.events.push(Event {
+                    start_time: event.f_date.and_time(event.f_time),
+                    end_time: event.t_date.and_time(event.t_time),
+                });
             }
         }
         Ok(())
@@ -125,6 +139,19 @@ impl GeoPosCommon {
 struct Edge {
     f_loc_x: u16,
     f_loc_y: Option<u16>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+struct MsgEvent {
+    #[serde(deserialize_with = "time::deserialize_date")]
+    f_date: NaiveDate,
+    #[serde(deserialize_with = "time::deserialize_time")]
+    f_time: NaiveTime,
+    #[serde(deserialize_with = "time::deserialize_date")]
+    t_date: NaiveDate,
+    #[serde(deserialize_with = "time::deserialize_time")]
+    t_time: NaiveTime,
 }
 
 /// Request all disruptions listed on strecken.info

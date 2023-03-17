@@ -1,4 +1,4 @@
-use chrono::{NaiveDate, NaiveTime};
+use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
 use serde::{de, Deserialize, Deserializer};
 
 use super::time;
@@ -56,11 +56,15 @@ pub struct Disruption {
     pub(crate) edge_ref_l: Vec<u16>,
     #[serde(default)]
     pub(crate) region_ref_l: Vec<u16>,
+    #[serde(default)]
+    pub(crate) event_ref_l: Vec<u16>,
 
-    #[serde(default, skip_deserializing)]
+    #[serde(skip_deserializing)]
     pub locations: Vec<LocationRange>,
-    #[serde(default, skip_deserializing)]
+    #[serde(skip_deserializing)]
     pub regions: Vec<Region>,
+    #[serde(skip_deserializing)]
+    pub events: Vec<Event>,
 }
 
 #[derive(Debug, Clone)]
@@ -85,6 +89,13 @@ pub struct Location {
 #[derive(Debug, Deserialize, Clone)]
 pub struct Region {
     pub name: String,
+}
+
+#[derive(Debug, Clone)]
+/// Something like a time range in which the disruption is active
+pub struct Event {
+    pub start_time: NaiveDateTime,
+    pub end_time: NaiveDateTime,
 }
 
 #[derive(Debug, Deserialize, Clone)]
