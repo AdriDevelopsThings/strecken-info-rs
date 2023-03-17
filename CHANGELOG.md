@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.4...v0.1.5) (2023-03-17)
+
+
+### Bug Fixes
+
+* rustls feature reqwest features ([08c9c9b](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/08c9c9baa6a0d86a2f912178c199b3d38f6b795a))
+
 ## [0.1.4](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.3...v0.1.4) (2023-03-17)
 
 
