@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.3...v0.1.4) (2023-03-17)
+
+
+### Features
+
+* add disruption events ([cf60583](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/cf605838adcd7dcd70976f2463312a003c7331f8))
+
 ## [0.1.3](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.2...v0.1.3) (2023-03-17)
 
 
