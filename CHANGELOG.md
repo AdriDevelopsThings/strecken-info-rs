@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.0...v0.1.1) (2023-03-17)
+
+
+### Bug Fixes
+
+* make disruption::* public ([d9be699](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/d9be6993f65b9d83ac2aa4d9943ad536ea0ab265))
+
 ## 0.1.0 (2023-03-15)
 
 
