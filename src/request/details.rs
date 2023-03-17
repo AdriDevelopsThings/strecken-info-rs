@@ -17,9 +17,9 @@
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
-use crate::error::StreckenInfoError;
+use crate::{error::StreckenInfoError, Disruption};
 
-use super::{request_strecken_info, Disruption, RequestType, ResponseType};
+use super::{request_strecken_info, RequestType, ResponseType};
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]

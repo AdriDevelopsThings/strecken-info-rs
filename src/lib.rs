@@ -8,7 +8,7 @@
 pub mod error;
 mod request;
 
-pub use request::{details, geo_pos};
+pub use request::{details, disruption::*, geo_pos};
 
 #[cfg(test)]
 mod tests;
