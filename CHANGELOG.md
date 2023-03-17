@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.1...v0.1.2) (2023-03-17)
+
+
+### Bug Fixes
+
+* add head to disruption struct ([3216496](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/3216496f8febd29eaaa82ded8f3f06ae664b8d55))
+
 ## [0.1.1](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.0...v0.1.1) (2023-03-17)
 
 
