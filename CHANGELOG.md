@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0 (2023-03-24)
+
+
+### Features
+
+* add disruption events ([111521e](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/111521e90ac3e2b01c70d9ab429db243861edac4))
+* add him details ([053ffb5](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/053ffb5fe15496ede0047aa8120e1b83c633df67))
+* add locations and regions to disruptions ([b084073](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/b084073d975090ff98404c3c8e17d4ee8ffb1400))
+* implement him geo_pos and set up crate ([f333d5a](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/f333d5a080a150a1e5382b3fba33e90adab953f5))
+
+
+### Bug Fixes
+
+* add head to disruption struct ([5679e9e](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/5679e9ec2bec9b5c0f51ace0ad8ba9dbc9c76100))
+* make disruption::* public ([0885d49](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/0885d49d10b1638b0f6c2b5cf66effc5d41566be))
+* rustls feature finally ([41067c7](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/41067c70a21dc3cdc9a17fc3f0d9cae256aa15d3))
+* rustls feature reqwest features ([82af3ad](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/82af3adb3e941b76e290d54af43e21971def1326))
+
 ## [0.1.6](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.5...v0.1.6) (2023-03-17)
 
 
