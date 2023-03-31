@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7 (2023-03-31)
+
+### Bug Fixes
+
+* update dependency versions ([d13da14](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/d13da14751c07c27578ac99c373e356515602b81))
+
 ## [0.1.6](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.5...v0.1.6) (2023-03-17)
 
 
