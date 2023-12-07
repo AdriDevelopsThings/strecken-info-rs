@@ -184,7 +184,7 @@ pub async fn request_disruptions(
             HimFiltrL {
                 mode: "INC".to_string(),
                 r#type: "HIMCAT".to_string(),
-                value: "1023".to_string(),
+                value: "1".to_string(),
             },
         ],
         max_num,

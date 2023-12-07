@@ -1,6 +1,6 @@
 use chrono::Utc;
 
-use crate::geo_pos::request_disruptions;
+use crate::{geo_pos::request_disruptions, Disruption};
 
 #[tokio::test]
 async fn geo_pos_test() {
@@ -9,4 +9,10 @@ async fn geo_pos_test() {
         .await
         .unwrap();
     assert!(response.len() > 10);
+    // planned disruptions exist
+    assert!(!response
+        .iter()
+        .filter(|disruption| disruption.planned)
+        .collect::<Vec<&Disruption>>()
+        .is_empty());
 }
