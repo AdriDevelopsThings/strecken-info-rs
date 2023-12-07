@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.8](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.7...v0.1.8) (2023-12-07)
+
+
+### Bug Fixes
+
+* planned parameter ([9e451c3](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/9e451c3394fff3b10687d961ddce91d4b1704052))
+
 ## 0.1.7 (2023-03-31)
 
 ### Bug Fixes
