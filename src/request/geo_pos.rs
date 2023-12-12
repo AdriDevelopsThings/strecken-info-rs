@@ -71,15 +71,15 @@ pub(crate) struct GeoPosResponse {
 
 #[derive(Debug, Deserialize, Clone)]
 pub(crate) struct GeoPosCommon {
-    #[serde(alias = "himL")]
+    #[serde(alias = "himL", default)]
     pub disruptions: Vec<Disruption>,
     #[serde(alias = "locL")]
     locations: Vec<Location>,
     #[serde(alias = "himMsgRegionL", default)]
     regions: Vec<Region>,
-    #[serde(alias = "himMsgEdgeL")]
+    #[serde(alias = "himMsgEdgeL", default)]
     edges: Vec<Edge>,
-    #[serde(alias = "himMsgEventL")]
+    #[serde(alias = "himMsgEventL", default)]
     msg_events: Vec<MsgEvent>,
 }
 
