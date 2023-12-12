@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.9](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.8...v0.1.9) (2023-12-12)
+
+
+### Bug Fixes
+
+* Decode Error missing field 'disruptions' ([6908386](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/6908386496afe1ebaa56e1211a63ba4ca8c07e9d))
+
 ## [0.1.8](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.7...v0.1.8) (2023-12-07)
 
 
