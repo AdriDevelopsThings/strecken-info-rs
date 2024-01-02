@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.10](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.9...v0.1.10) (2024-01-02)
+
+
+### Bug Fixes
+
+* timeE parse error and root err handling ([6f4216a](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/6f4216a3c13623d358ea40c29dc68f35be5cc3b3))
+
 ## [0.1.9](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.8...v0.1.9) (2023-12-12)
 
 
