@@ -70,6 +70,7 @@ pub(crate) struct Response {
     // pub ext: String,
     // pub lang: String,
     // pub id: String,
+    pub err: Option<String>,
     #[serde(rename = "svcResL")]
     pub response: Vec<ResponseType>,
 }
@@ -107,11 +108,16 @@ pub(crate) async fn request_strecken_info(
         }],
         ver: "1.15".to_string(),
     };
-    Ok(reqwest::Client::new()
+    let response = reqwest::Client::new()
         .post("https://db-livemaps.hafas.de/bin/mgate.exe")
         .body(serde_json::to_string(&request)?)
         .send()
         .await?
-        .json()
-        .await?)
+        .json::<Response>()
+        .await?;
+    if let Some(err) = response.err {
+        return Err(StreckenInfoError::ResponseError(err));
+    }
+
+    Ok(response)
 }

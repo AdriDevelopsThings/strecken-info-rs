@@ -173,7 +173,7 @@ pub async fn request_disruptions(
         date_b: start.format("%Y%m%d").to_string(),
         time_b: start.format("%H%M%S").to_string(),
         date_e: end.format("%Y%m%d").to_string(),
-        time_e: end.format("%Y%m%d").to_string(),
+        time_e: end.format("%H%M%S").to_string(),
         get_poly_line: false,
         him_fltr_l: vec![
             HimFiltrL {
