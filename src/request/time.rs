@@ -1,18 +1,19 @@
-use chrono::{NaiveDate, NaiveTime};
-use serde::{de, Deserialize, Deserializer};
+use chrono::NaiveDateTime;
+use serde::{de, Deserialize, Deserializer, Serializer};
 
-pub fn deserialize_date<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
+const DB_FORMAT: &str = "%Y-%m-%dT%H:%M:%S";
+
+pub fn deserialize_datetime<'de, D>(deserializer: D) -> Result<NaiveDateTime, D::Error>
 where
     D: Deserializer<'de>,
 {
-    NaiveDate::parse_from_str(String::deserialize(deserializer)?.as_str(), "%Y%m%d")
+    NaiveDateTime::parse_from_str(String::deserialize(deserializer)?.as_str(), DB_FORMAT)
         .map_err(de::Error::custom)
 }
 
-pub fn deserialize_time<'de, D>(deserializer: D) -> Result<NaiveTime, D::Error>
+pub fn serialize_datetime<S>(datetime: &NaiveDateTime, serializer: S) -> Result<S::Ok, S::Error>
 where
-    D: Deserializer<'de>,
+    S: Serializer,
 {
-    NaiveTime::parse_from_str(String::deserialize(deserializer)?.as_str(), "%H%M%S")
-        .map_err(de::Error::custom)
+    serializer.serialize_str(&datetime.format(DB_FORMAT).to_string())
 }

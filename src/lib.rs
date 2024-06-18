@@ -2,13 +2,13 @@
 //! A rust SDK to make requests to [strecken.info](https://strecken.info)
 //!
 //! Currently only these functions are implemented:
-//! * [`HimGeoPos`] - See [geo_pos]
-//! * [`HimDetails`] - See [details]
+//! * get revisions - See [revision]
+//! * get disruptions - See [disruptions]
 
 pub mod error;
 mod request;
 
-pub use request::{details, disruption::*, geo_pos};
+pub use request::{disruptions, filter, revision};
 
 #[cfg(test)]
 mod tests;
