@@ -1,3 +1,17 @@
+//! Request a list of all disruptions filtered by [`DisruptionsFilter`]
+//! ```no_run
+//! use strecken_info::revision::get_revision;
+//! use strecken_info::filter::DisruptionsFilter;
+//! use strecken_info::disruptions::{request_disruptions, Disruption};
+//!
+//! #[tokio::main]
+//! async fn main() {
+//!     let revision: u32 = get_revision().await.unwrap();
+//!     let disruptions: Vec<Disruption> = request_disruptions(DisruptionsFilter::default(), revision).await.unwrap();
+//!     println!("Got {} disruptions", disruptions.len());
+//! }
+//! ```
+
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
