@@ -55,6 +55,8 @@ enum UpdateJson {
 struct UpdateRevisionJson {
     #[serde(alias = "nummer")]
     number: u32,
+    #[serde(alias = "stoerungen")]
+    disruptions: Vec<serde_json::Value>,
 }
 
 impl RevisionContext {
@@ -76,7 +78,10 @@ impl RevisionContext {
         Ok(json.revision)
     }
 
-    pub async fn wait_for_new_revision(&mut self) -> Result<u32, StreckenInfoError> {
+    pub async fn wait_for_new_revision_filtered(
+        &mut self,
+        only_new_disruptions: bool,
+    ) -> Result<u32, StreckenInfoError> {
         while let Some(msg) = self.stream.next().await {
             let text = msg?.into_text()?;
             if !text.starts_with('{') {
@@ -84,10 +89,17 @@ impl RevisionContext {
             }
             let json: UpdateJson = serde_json::from_str(&text)?;
             if let UpdateJson::NewRevision { revision } = json {
+                if only_new_disruptions && revision.disruptions.is_empty() {
+                    continue;
+                }
                 return Ok(revision.number);
             }
         }
         Err(StreckenInfoError::WebSocketNoRevisionError)
+    }
+
+    pub async fn wait_for_new_revision(&mut self) -> Result<u32, StreckenInfoError> {
+        self.wait_for_new_revision_filtered(false).await
     }
 }
 
