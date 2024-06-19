@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.0...v0.3.1) (2024-06-19)
+
+
+### Bug Fixes
+
+* add value subcause to disruption ([9b11b0f](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/9b11b0f32901ba1305bd968193ff28ec552f3e40))
+
 ## [0.3.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.2.0...v0.3.0) (2024-06-19)
 
 
