@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.2.0...v0.3.0) (2024-06-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* details api removed, disruptions api changed and disruptions models changed
+
+### Miscellaneous Chores
+
+* update api to new one ([94cb43d](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/94cb43d17d10eb7ba9705c1e511496dbd40af9d3))
+
 ## [0.2.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.1.10...v0.2.0) (2024-06-19)
 
 
