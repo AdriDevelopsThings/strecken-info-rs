@@ -46,6 +46,7 @@ struct DisruptionRequestPayload {
 #[derive(Debug, Deserialize, Clone)]
 pub struct Disruption {
     pub key: String,
+    pub subcause: Option<String>,
     pub cause: String,
     #[serde(alias = "abgelaufen")]
     pub expired: bool,
