@@ -26,7 +26,11 @@
 use futures_util::{SinkExt, StreamExt};
 use serde::Deserialize;
 use tokio::net::TcpStream;
-use tokio_tungstenite::{connect_async, tungstenite::Message, MaybeTlsStream, WebSocketStream};
+use tokio_tungstenite::{
+    connect_async,
+    tungstenite::{error::ProtocolError, Error, Message},
+    MaybeTlsStream, WebSocketStream,
+};
 
 use crate::error::StreckenInfoError;
 
@@ -34,6 +38,7 @@ const WEBSOCKET_PATH: &str = "wss://strecken-info.de/api/websocket";
 
 pub struct RevisionContext {
     stream: WebSocketStream<MaybeTlsStream<TcpStream>>,
+    old_revision: Option<u32>,
 }
 
 #[derive(Deserialize)]
@@ -59,10 +64,32 @@ struct UpdateRevisionJson {
     disruptions: Vec<serde_json::Value>,
 }
 
+/// returns `true` if `err` is
+/// - Error::ProtocolError::ResetWithoutClosingHandshake
+/// - Error::ConnectionClosed
+fn revision_error_should_retry(err: &Error) -> bool {
+    if let Error::Protocol(prtctl_err) = err {
+        return matches!(prtctl_err, ProtocolError::ResetWithoutClosingHandshake);
+    }
+
+    matches!(err, Error::ConnectionClosed)
+}
+
 impl RevisionContext {
     pub async fn connect() -> Result<Self, StreckenInfoError> {
         let (ws, _) = connect_async(WEBSOCKET_PATH).await?;
-        Ok(Self { stream: ws })
+        Ok(Self {
+            stream: ws,
+            old_revision: None,
+        })
+    }
+
+    /// close the open stream and reopen it (doing the handshake with `get_first_revision` is mandatory)
+    async fn reconnect(&mut self) -> Result<(), StreckenInfoError> {
+        // ignore close result (we want to force the close)
+        let _ = self.stream.close(None).await;
+        *self = Self::connect().await?;
+        Ok(())
     }
 
     pub async fn get_first_revision(&mut self) -> Result<u32, StreckenInfoError> {
@@ -75,6 +102,7 @@ impl RevisionContext {
             .await
             .ok_or(StreckenInfoError::WebSocketNoRevisionError)??;
         let json: FirstRevisionJson = serde_json::from_slice(&msg.into_data())?;
+        self.old_revision = Some(json.revision);
         Ok(json.revision)
     }
 
@@ -82,13 +110,40 @@ impl RevisionContext {
         &mut self,
         only_new_disruptions: bool,
     ) -> Result<u32, StreckenInfoError> {
+        if self.old_revision.is_none() {
+            return self.get_first_revision().await;
+        }
+
+        // just one retry is allowed
+        let mut retry = true;
+
         while let Some(msg) = self.stream.next().await {
+            if let Err(err) = msg {
+                if revision_error_should_retry(&err) && retry {
+                    let old_revision = self.old_revision;
+                    self.reconnect().await?;
+                    let revision = self.get_first_revision().await?;
+                    if old_revision != Some(revision) {
+                        return Ok(revision);
+                    }
+
+                    retry = false;
+                    continue;
+                } else {
+                    return Err(StreckenInfoError::WebsocketError(err));
+                }
+            }
+
             let text = msg?.into_text()?;
+            retry = true;
+            // no json (e.g. a 'PING')
             if !text.starts_with('{') {
                 continue;
             }
+
             let json: UpdateJson = serde_json::from_str(&text)?;
             if let UpdateJson::NewRevision { revision } = json {
+                self.old_revision = Some(revision.number);
                 if only_new_disruptions && revision.disruptions.is_empty() {
                     continue;
                 }
