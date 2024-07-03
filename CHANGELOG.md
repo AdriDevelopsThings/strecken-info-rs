@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.2...v0.3.3) (2024-07-03)
+
+
+### Features
+
+* **revision:** retry while waiting for new revision ([cf33b54](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/cf33b548af94221074f71b8e7987fcca3fc7e138))
+
 ## [0.3.2](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.1...v0.3.2) (2024-06-19)
 
 
