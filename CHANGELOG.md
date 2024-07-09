@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.4](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.3...v0.3.4) (2024-07-09)
+
+
+### Bug Fixes
+
+* coordinate NaN value instead of f64 ([7699a78](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/7699a784dd94f34cef63b01b0eca5505d871b384))
+
 ## [0.3.3](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.2...v0.3.3) (2024-07-03)
 
 
