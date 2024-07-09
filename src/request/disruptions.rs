@@ -17,7 +17,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::error::StreckenInfoError;
 
-use super::{filter::DisruptionsFilter, time};
+use super::{filter::DisruptionsFilter, float, time};
 
 const DISRUPTIONS_API_PATH: &str = "https://strecken-info.de/api/stoerungen";
 
@@ -104,6 +104,8 @@ pub struct DisruptionEffect {
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct DisruptionCoordinates {
+    #[serde(deserialize_with = "float::deserialize_nan_float")]
     pub x: f64,
+    #[serde(deserialize_with = "float::deserialize_nan_float")]
     pub y: f64,
 }
