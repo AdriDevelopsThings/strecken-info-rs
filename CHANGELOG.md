@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.6](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.5...v0.3.6) (2024-07-12)
+
+
+### Bug Fixes
+
+* product serde renaming instead of aliases ([1c1b9d6](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/1c1b9d641295c6a76600618dff6616d3c4a21fa5))
+
 ## [0.3.5](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.4...v0.3.5) (2024-07-12)
 
 
