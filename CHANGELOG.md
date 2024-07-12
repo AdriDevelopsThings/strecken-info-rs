@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.5](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.4...v0.3.5) (2024-07-12)
+
+
+### Features
+
+* derive disruption with serde::Serialize ([5c2d58c](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/5c2d58cfb0fc23819ffaa7e2359b758e1a4ff2c0))
+
 ## [0.3.4](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.3...v0.3.4) (2024-07-09)
 
 
