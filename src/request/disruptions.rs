@@ -43,7 +43,7 @@ struct DisruptionRequestPayload {
     revision: u32,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Disruption {
     pub key: String,
     pub subcause: Option<String>,
@@ -69,7 +69,7 @@ pub struct Disruption {
     pub collective_report: bool,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DisruptionPeriod {
     #[serde(alias = "beginn", deserialize_with = "time::deserialize_datetime")]
     pub start: NaiveDateTime,
@@ -77,14 +77,14 @@ pub struct DisruptionPeriod {
     pub end: NaiveDateTime,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DisruptionStation {
     #[serde(alias = "langname")]
     pub name: String,
     pub ril100: String,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub enum Product {
     #[serde(rename = "SPFV")]
     LongDistance,
@@ -94,7 +94,7 @@ pub enum Product {
     Freight,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DisruptionEffect {
     #[serde(alias = "wirkung")]
     pub effect: String,
@@ -102,7 +102,7 @@ pub struct DisruptionEffect {
     pub product: Vec<Product>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DisruptionCoordinates {
     #[serde(deserialize_with = "float::deserialize_nan_float")]
     pub x: f64,
