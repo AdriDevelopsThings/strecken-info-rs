@@ -88,9 +88,9 @@ pub struct DisruptionStation {
 pub enum Product {
     #[serde(rename = "SPFV")]
     LongDistance,
-    #[serde(alias = "SPNV")]
+    #[serde(rename = "SPNV")]
     Local,
-    #[serde(alias = "SGV")]
+    #[serde(rename = "SGV")]
     Freight,
 }
 
