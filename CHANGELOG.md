@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.7](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.6...v0.3.7) (2024-07-13)
+
+
+### Features
+
+* dedup disruption stations ([b1205b8](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/b1205b81646a36feb61fb7bdbe3019772d6958bc))
+
 ## [0.3.6](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.5...v0.3.6) (2024-07-12)
 
 
