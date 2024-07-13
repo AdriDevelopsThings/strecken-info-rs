@@ -76,9 +76,17 @@ pub struct Disruption {
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DisruptionPeriod {
-    #[serde(alias = "beginn", deserialize_with = "time::deserialize_datetime")]
+    #[serde(
+        alias = "beginn",
+        serialize_with = "time::serialize_datetime",
+        deserialize_with = "time::deserialize_datetime"
+    )]
     pub start: NaiveDateTime,
-    #[serde(alias = "ende", deserialize_with = "time::deserialize_datetime")]
+    #[serde(
+        alias = "ende",
+        serialize_with = "time::serialize_datetime",
+        deserialize_with = "time::deserialize_datetime"
+    )]
     pub end: NaiveDateTime,
 }
 
