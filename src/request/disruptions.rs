@@ -26,15 +26,20 @@ pub async fn request_disruptions(
     revision: u32,
 ) -> Result<Vec<Disruption>, StreckenInfoError> {
     let payload = DisruptionRequestPayload { filter, revision };
-
-    Ok(reqwest::Client::new()
+    let mut disruptions: Vec<Disruption> = reqwest::Client::new()
         .post(DISRUPTIONS_API_PATH)
         .json(&payload)
         .send()
         .await?
         .error_for_status()?
         .json()
-        .await?)
+        .await?;
+
+    for disruption in disruptions.iter_mut() {
+        disruption.stations.dedup_by_key(|s| s.name.clone())
+    }
+
+    Ok(disruptions)
 }
 
 #[derive(Serialize)]
