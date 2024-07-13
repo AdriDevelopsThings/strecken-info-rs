@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.8](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.7...v0.3.8) (2024-07-13)
+
+
+### Bug Fixes
+
+* release please ([92cca18](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/92cca18ecd89bedc06f34eb9692bcbc566bb304f))
+
 ## [0.3.7](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.6...v0.3.7) (2024-07-13)
 
 
