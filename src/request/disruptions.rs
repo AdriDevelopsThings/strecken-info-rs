@@ -56,7 +56,7 @@ pub struct Disruption {
     #[serde(alias = "abgelaufen")]
     pub expired: bool,
     #[serde(alias = "gleisEinschraenkung")]
-    pub track_restriction: String,
+    pub track_restriction: TrackRestriction,
     pub text: String,
     #[serde(alias = "regionalbereiche")]
     pub region_areas: Vec<String>,
@@ -72,6 +72,15 @@ pub struct Disruption {
     pub period: DisruptionPeriod,
     #[serde(alias = "sammelmeldung")]
     pub collective_report: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "lowercase")]
+pub enum TrackRestriction {
+    #[serde(alias = "SCHWER")]
+    Severe,
+    #[serde(alias = "LEICHT")]
+    Slight,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
