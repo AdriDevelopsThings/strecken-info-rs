@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.8...v1.0.0) (2024-07-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* add track restriction enum
+
+### Miscellaneous Chores
+
+* add track restriction enum ([a305444](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/a30544493e2b41b5269e8b0486f5b0bb19cf3af2))
+
 ## [0.3.8](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.7...v0.3.8) (2024-07-13)
 
 
