@@ -23,6 +23,8 @@
 //! }
 //! ```
 
+use std::time::{Duration, SystemTime};
+
 use futures_util::{SinkExt, StreamExt};
 use serde::Deserialize;
 use tokio::net::TcpStream;
@@ -106,13 +108,17 @@ impl RevisionContext {
         Ok(json.revision)
     }
 
-    pub async fn wait_for_new_revision_filtered(
+    /// return the new revision after timeout even if only_new_disruptions is true but no new disruption sent
+    pub async fn wait_for_new_revision_filtered_timeout(
         &mut self,
         only_new_disruptions: bool,
+        timeout: Option<Duration>,
     ) -> Result<u32, StreckenInfoError> {
         if self.old_revision.is_none() {
             return self.get_first_revision().await;
         }
+
+        let since = SystemTime::now();
 
         // just one retry is allowed
         let mut retry = true;
@@ -145,12 +151,26 @@ impl RevisionContext {
             if let UpdateJson::NewRevision { revision } = json {
                 self.old_revision = Some(revision.number);
                 if only_new_disruptions && revision.disruptions.is_empty() {
+                    if let Some(timeout) = timeout {
+                        // unwrap because since couldn't be later than now
+                        if since.elapsed().unwrap() >= timeout {
+                            return Ok(revision.number);
+                        }
+                    }
                     continue;
                 }
                 return Ok(revision.number);
             }
         }
         Err(StreckenInfoError::WebSocketNoRevisionError)
+    }
+
+    pub async fn wait_for_new_revision_filtered(
+        &mut self,
+        only_new_disruptions: bool,
+    ) -> Result<u32, StreckenInfoError> {
+        self.wait_for_new_revision_filtered_timeout(only_new_disruptions, None)
+            .await
     }
 
     pub async fn wait_for_new_revision(&mut self) -> Result<u32, StreckenInfoError> {
