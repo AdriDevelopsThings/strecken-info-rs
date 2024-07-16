@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v1.0.0...v1.1.0) (2024-07-16)
+
+
+### Features
+
+* wait for new revision with timeout ([a25cff5](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/a25cff5951afdbc680739d9b3e2143016df6c387))
+
 ## [1.0.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v0.3.8...v1.0.0) (2024-07-14)
 
 
