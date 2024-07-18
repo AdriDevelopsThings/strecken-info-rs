@@ -23,7 +23,10 @@
 //! }
 //! ```
 
-use std::time::{Duration, SystemTime};
+use std::{
+    io::ErrorKind,
+    time::{Duration, SystemTime},
+};
 
 use futures_util::{SinkExt, StreamExt};
 use serde::Deserialize;
@@ -72,6 +75,10 @@ struct UpdateRevisionJson {
 fn revision_error_should_retry(err: &Error) -> bool {
     if let Error::Protocol(prtctl_err) = err {
         return matches!(prtctl_err, ProtocolError::ResetWithoutClosingHandshake);
+    }
+
+    if let Error::Io(io_err) = err {
+        return io_err.kind() == ErrorKind::UnexpectedEof;
     }
 
     matches!(err, Error::ConnectionClosed)
