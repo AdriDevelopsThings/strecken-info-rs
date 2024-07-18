@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v1.1.0...v1.1.1) (2024-07-18)
+
+
+### Bug Fixes
+
+* retry revision on UnexpectedEof ([7d89e7b](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/7d89e7b0f5ab08b122b9bd1886d49b253b21b707))
+
 ## [1.1.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v1.0.0...v1.1.0) (2024-07-16)
 
 
