@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v1.1.1...v1.2.0) (2024-09-06)
+
+
+### Features
+
+* add sections to disruption ([7b1f9d9](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/7b1f9d911237c62618267f5b9e4a302521a2ee1a))
+
 ## [1.1.1](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v1.1.0...v1.1.1) (2024-07-18)
 
 
