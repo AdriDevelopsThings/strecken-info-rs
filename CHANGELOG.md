@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v1.2.0...v1.2.1) (2024-09-06)
+
+
+### Bug Fixes
+
+* serde default sections ([6c86423](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/6c86423fc66bb9f5543b1d62271a36902776e5fc))
+
 ## [1.2.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v1.1.1...v1.2.0) (2024-09-06)
 
 
