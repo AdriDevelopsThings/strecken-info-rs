@@ -66,6 +66,8 @@ pub struct Disruption {
     pub coordinates: Vec<DisruptionCoordinates>,
     #[serde(alias = "betriebsstellen")]
     pub stations: Vec<DisruptionStation>,
+    #[serde(alias = "abschnitte")]
+    pub sections: Vec<DisruptionSection>,
     #[serde(alias = "wirkungenMitVerkehrsarten")]
     pub effects: Vec<DisruptionEffect>,
     #[serde(alias = "zeitraum")]
@@ -104,6 +106,16 @@ pub struct DisruptionStation {
     #[serde(alias = "langname")]
     pub name: String,
     pub ril100: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+pub struct DisruptionSection {
+    #[serde(alias = "von")]
+    pub from: DisruptionStation,
+    #[serde(alias = "bis")]
+    pub to: DisruptionStation,
+    #[serde(alias = "streckennummer")]
+    pub track_number: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
