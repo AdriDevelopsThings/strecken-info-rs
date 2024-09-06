@@ -66,7 +66,7 @@ pub struct Disruption {
     pub coordinates: Vec<DisruptionCoordinates>,
     #[serde(alias = "betriebsstellen")]
     pub stations: Vec<DisruptionStation>,
-    #[serde(alias = "abschnitte")]
+    #[serde(alias = "abschnitte", default)]
     pub sections: Vec<DisruptionSection>,
     #[serde(alias = "wirkungenMitVerkehrsarten")]
     pub effects: Vec<DisruptionEffect>,
