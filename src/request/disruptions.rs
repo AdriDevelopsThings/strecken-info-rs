@@ -12,6 +12,8 @@
 //! }
 //! ```
 
+use std::fmt::Display;
+
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
@@ -131,9 +133,84 @@ pub enum Product {
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct DisruptionEffect {
     #[serde(alias = "wirkung")]
-    pub effect: String,
+    pub effect: DisruptionEffectType,
     #[serde(alias = "verkehrsarten")]
     pub product: Vec<Product>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+pub enum DisruptionEffectType {
+    #[serde(rename = "UMLEITUNG", alias = "Umleitung")]
+    Diversion,
+    #[serde(rename = "AUSFALL", alias = "Ausfall")]
+    Cancel,
+    #[serde(rename = "TEILAUSFALL", alias = "Teilausfall")]
+    PartialCancel,
+    #[serde(
+        rename = "FAHRZEITVERLAENGERUNG",
+        alias = "Fahrzeitverlängerung auf Regellaufweg"
+    )]
+    LongerTravelTime,
+    #[serde(rename = "GGL_MIT_ZS_6", alias = "Befahren Ggl. mit Zs 6")]
+    OppositeTrackZs6,
+    #[serde(
+        rename = "GGL_MIT_ZS_8",
+        alias = "Fahren auf dem Gegengleis mit Zs 8 oder Befehl"
+    )]
+    OppositeTrackZs8,
+    #[serde(rename = "ZURUECKHALTEN_VON_ZUEGEN", alias = "Zurückhalten von Zügen")]
+    HoldingBack,
+    #[serde(rename = "TOTALSPERRUNG", alias = "Totalsperrung")]
+    TotalClosure,
+    #[serde(
+        rename = "ABWEICHUNG_VOM_FPL",
+        alias = "Abweichung vom Fahrplan für Zugmeldestellen"
+    )]
+    DeviationFromTimetable,
+    #[serde(
+        rename = "OHNE_ABWEICHUNG_DES_LAUFWEGS",
+        alias = "Ohne Abweichung des Laufwegs"
+    )]
+    WithoutDeviationFromRoute,
+    #[serde(
+        rename = "UMLEITUNG_UNTER_ERLEICHTERTEN_BEDINGUNGEN",
+        alias = "Umleitung unter erleichterten Bedingungen"
+    )]
+    DiversionUnderSimplifiedConditions,
+    #[serde(rename = "SONSTIGES", alias = "Sonstiges")]
+    Other,
+    #[serde(untagged)]
+    Unknown(String),
+}
+
+impl Display for DisruptionEffectType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                DisruptionEffectType::Diversion => "Umleitung",
+                DisruptionEffectType::Cancel => "Ausfall",
+                DisruptionEffectType::PartialCancel => "Teilausfall",
+                DisruptionEffectType::LongerTravelTime => "Fahrzeitverlängerung auf Regellaufweg",
+                DisruptionEffectType::OppositeTrackZs6 => "Befahren Ggl. mit Zs 6",
+                DisruptionEffectType::OppositeTrackZs8 => {
+                    "Fahren auf dem Gegengleis mit Zs 8 oder Befehl"
+                }
+                DisruptionEffectType::HoldingBack => "Zurückhalten von Zügen",
+                DisruptionEffectType::TotalClosure => "Totalsperrung",
+                DisruptionEffectType::DeviationFromTimetable => {
+                    "Abweichung vom Fahrplan für Zugmeldestellen"
+                }
+                DisruptionEffectType::WithoutDeviationFromRoute => "Ohne Abweichung des Laufwegs",
+                DisruptionEffectType::DiversionUnderSimplifiedConditions => {
+                    "Umleitung unter erleichterten Bedingungen"
+                }
+                DisruptionEffectType::Other => "Sonstiges",
+                DisruptionEffectType::Unknown(s) => s,
+            }
+        )
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]

@@ -1,5 +1,5 @@
 use crate::{
-    disruptions::{request_disruptions, Disruption},
+    disruptions::{request_disruptions, Disruption, DisruptionEffectType},
     filter::DisruptionsFilter,
     revision::get_revision,
 };
@@ -16,6 +16,23 @@ async fn disruptions_test() {
     assert!(!response
         .iter()
         .filter(|disruption| !disruption.expired)
+        .collect::<Vec<&Disruption>>()
+        .is_empty());
+    assert!(response
+        .iter()
+        .filter(|disruption| disruption
+            .effects
+            .iter()
+            .map(|e| &e.effect)
+            .any(|e| match e {
+                DisruptionEffectType::Unknown(content) => {
+                    println!(
+                        "DisruptionEffectType variant '{content}' not covered by any enum variant"
+                    );
+                    true
+                }
+                _ => false,
+            }))
         .collect::<Vec<&Disruption>>()
         .is_empty());
 }
