@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v1.2.1...v2.0.0) (2024-11-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* add disruption effect type enum
+
+### Bug Fixes
+
+* add disruption effect type enum ([6cebc5e](https://github.com/AdriDevelopsThings/strecken-info-rs/commit/6cebc5ed30727ccbc69404a82cfaa7129c96efc0))
+
 ## [1.2.1](https://github.com/AdriDevelopsThings/strecken-info-rs/compare/v1.2.0...v1.2.1) (2024-09-06)
 
 
