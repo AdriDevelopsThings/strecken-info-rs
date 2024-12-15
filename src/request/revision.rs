@@ -110,7 +110,7 @@ impl RevisionContext {
             .next()
             .await
             .ok_or(StreckenInfoError::WebSocketNoRevisionError)??;
-        let json: FirstRevisionJson = serde_json::from_slice(&msg.into_data())?;
+        let json: FirstRevisionJson = serde_json::from_slice(msg.into_data().as_slice())?;
         self.old_revision = Some(json.revision);
         Ok(json.revision)
     }
@@ -148,13 +148,14 @@ impl RevisionContext {
             }
 
             let text = msg?.into_text()?;
+            let text = text.as_str();
             retry = true;
             // no json (e.g. a 'PING')
             if !text.starts_with('{') {
                 continue;
             }
 
-            let json: UpdateJson = serde_json::from_str(&text)?;
+            let json: UpdateJson = serde_json::from_str(text)?;
             if let UpdateJson::NewRevision { revision } = json {
                 self.old_revision = Some(revision.number);
                 if only_new_disruptions && revision.disruptions.is_empty() {
