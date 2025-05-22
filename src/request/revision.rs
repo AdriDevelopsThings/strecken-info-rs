@@ -110,7 +110,7 @@ impl RevisionContext {
             .next()
             .await
             .ok_or(StreckenInfoError::WebSocketNoRevisionError)??;
-        let json: FirstRevisionJson = serde_json::from_slice(msg.into_data().as_slice())?;
+        let json: FirstRevisionJson = serde_json::from_slice(msg.into_data().iter().as_slice())?;
         self.old_revision = Some(json.revision);
         Ok(json.revision)
     }
